@@ -1,7 +1,7 @@
 # 🦙 PlanLLaMA - AI Destekli Proje Yönetim Platformu
 
 > **Llama Hackathon 2025 - KodLlama Takımı**  
-> Türkçe proje dokümanlarını otomatik olarak Epic ve Task'lara dönüştüren, AI destekli akıllı proje yönetim sistemi.
+> Türkçe proje dokümanlarını otomatik olarak görevlere (task) dönüştüren, AI destekli akıllı proje yönetim sistemi.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -26,10 +26,9 @@
 
 **PlanLLaMA**, proje yönetiminde yapay zeka gücünü kullanarak ekiplerin iş akışlarını optimize eden bir platformdur. Türkçe proje dokümanlarını analiz ederek otomatik olarak:
 
-- **Epic'lere** (İş Paketleri) ayırır
-- **Task'ları** (Görevler) oluşturur
+- **Görevleri** (Tasks) oluşturur
 - **Ekip üyelerine** yeteneklerine göre görev atar
-- **Jira formatında** çıktı üretir
+- **Jira entegrasyonuna uygun** JSON çıktısı üretir
 
 ### 🌟 Neden PlanLLaMA?
 
@@ -37,7 +36,7 @@
 - 🎯 **Akıllı Atama**: Ekip üyelerinin becerilerine göre optimal görev dağılımı
 - 🇹🇷 **Türkçe Destek**: Türkçe tarih, öncelik ve süre ifadelerini otomatik çevirir
 - 📊 **Gerçek Zamanlı Takip**: Proje ilerlemesini ve ekip yükünü anlık görüntüleme
-- 🔄 **Jira Uyumlu**: Üretilen task'lar direkt Jira'ya aktarılabilir formatta
+- 🔄 **Entegrasyon Hazır**: Üretilen task'lar Jira'ya entegre edilebilir yapıda
 
 ---
 
@@ -45,7 +44,7 @@
 
 ### 🤖 AI Motoru
 - **Dual Model Sistemi**: 
-  - Model 1 (DPO): Proje analizi ve Epic/Task planlama
+  - Model 1 (DPO): Proje analizi ve görev planlama
   - Model 2 (Instruct/SFT): Markdown'dan JSON dönüşümü
 - **Chunking Desteği**: 7+ task için otomatik gruplama ile GPU bellek optimizasyonu
 - **Smart Parsing**: Türkçe ifadelerin otomatik İngilizce Jira formatına çevrilmesi
@@ -93,7 +92,7 @@ Proje Dokümanı (Türkçe)
          │
          ▼
 ┌────────────────────┐
-│  Model 1 (DPO)     │  ← Epic/Task Planlama
+│  Model 1 (DPO)     │  ← Görev Planlama
 │  Turkish-Llama-8B  │
 └─────────┬──────────┘
           │
@@ -254,7 +253,6 @@ print(f"✅ Toplam {result['total_tasks']} task oluşturuldu!")
   "jira_json": {
     "tasks": [
       {
-        "epic_name": "Backend Altyapısı",
         "fields": {
           "project": {"key": "ECOM"},
           "summary": "API Gateway Kurulumu",
@@ -285,7 +283,7 @@ print(f"✅ Toplam {result['total_tasks']} task oluşturuldu!")
 
 ### AI & Machine Learning
 - **vLLM**: Hızlı LLM inference
-- **Turkish-Llama-8B-DPO**: Task planlama modeli
+- **Turkish-Llama-8B-DPO**: Görev planlama modeli
 - **Turkish-Llama-8B-Instruct**: JSON dönüşüm modeli
 - **Fine-tuned Model**: `Berkesule/kodllama_sft_cosmosllama_merged`
 - **LoRA**: Efficient fine-tuning
@@ -317,17 +315,9 @@ print(f"✅ Toplam {result['total_tasks']} task oluşturuldu!")
 
 | Metrik | Değer |
 |--------|-------|
-| Task Üretme Süresi | ~3-5 saniye (7 task) |
+| Task Üretme Süresi | ~20-30 saniye (ör:8 task) |
 | GPU Bellek Kullanımı | ~14-16GB (2 model) |
-| API Response Time | <500ms |
-| Model Accuracy | %92+ (Jira format) |
 | Maksimum Task | Sınırsız (chunking) |
-
-### Örnek Senaryolar
-
-- **Basit Proje** (5-7 task): ~3 saniye, tek seferde işlenir
-- **Orta Proje** (15-20 task): ~10 saniye, 2-3 gruba bölünür
-- **Büyük Proje** (30+ task): ~20 saniye, 4+ gruba bölünür
 
 ---
 
@@ -338,15 +328,14 @@ Projede kullanılan AI modelleri, 3 aşamalı bir pipeline ile eğitilmiştir:
 ### 1. Ekip Üretimi
 Kaggle'dan alınan proje planları kullanılarak her proje için 4 farklı ekip kombinasyonu oluşturulur.
 
-### 2. Task Planlama
-Her ekip için Turkish-Llama-8B-DPO modeli ile Epic/Task planları (Markdown format) üretilir.
+### 2. Görev Planlama
+Her ekip için Turkish-Llama-8B-DPO modeli ile görev planları (Markdown format) üretilir.
 
 ### 3. JSON Dönüşümü
 Fine-tuned Llama modeli ile Markdown planlar Jira JSON formatına dönüştürülür.
 
 **Dataset**: Sentetik olarak üretilmiş 1000+ proje planı  
 **Fine-tuning**: LoRA (r=4, alpha=8) ile 3 epoch  
-**Eğitim Süresi**: ~12 saat (NVIDIA A100)
 
 ---
 

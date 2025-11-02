@@ -321,7 +321,12 @@ Fine-tuned Llama modeli ile Markdown planlar Jira JSON formatına dönüştürü
 
 ## 👥 Ekip
 
-**KodLlama Takımı**
+**KodLlama Takımı** 
+- Osman Orçun Aydın ([@orcnnn](https://github.com/orcnnn))
+- Habil Çoban ([@hubble658](https://github.com/hubble658)) 
+- Berke Bünyamin Süle ([@berkesule](https://github.com/berkesule)) 
+- Yavuz Selim Aygan ([@cxrbon16](https://github.com/cxrbon16))
+
 
 Llama Hackathon 2025 için geliştirilmiştir.
 

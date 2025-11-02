@@ -14,6 +14,7 @@
 - [Proje Hakkında](#-proje-hakkında)
 - [Özellikler](#-özellikler)
 - [Mimari](#-mimari)
+- [Teknik Mimari & Pipeline](./TECHNICAL_README.md)
 - [Kurulum](#-kurulum)
 - [Kullanım](#-kullanım)
 - [Repolar](#-repolar)
@@ -47,11 +48,13 @@
   - Model 1 (DPO): Proje analizi ve görev planlama
   - Model 2 (Instruct/SFT): Markdown'dan JSON dönüşümü
 - **Chunking Desteği**: 7+ task için otomatik gruplama ile GPU bellek optimizasyonu
-- **Smart Parsing**: Türkçe ifadelerin otomatik İngilizce Jira formatına çevrilmesi
-  - "15 Kasım 2025" → `"2025-11-15"`
-  - "3 gün" → `"3d"`
+- **Smart Parsing**: Türkçe ifadelerin otomatik İngilizce Jira formatına çevrilmesi  
+  - "15 Kasım 2025" → `"2025-11-15"`  
+  - "3 gün" → `"3d"`  
   - "Yüksek" → `"High"`
 - **Hızlı İşlem**: 7 task için ~3-5 saniye, 20+ task için ~20 saniye
+- **Proje Durumuna Göre Anlık Analiz**
+- **Proje Açıklaması Zenginleştirme**
 
 ### 📊 Backend API
 - **RESTful API**: Flask tabanlı modern API
@@ -66,6 +69,7 @@
 - **Kanban Board**: Görsel görev takibi
 - **Team Management**: Ekip üyesi yönetimi ve workload görüntüleme
 - **AI Integration**: Doküman yükleme ve otomatik task oluşturma
+  
 
 ---
 
@@ -85,32 +89,7 @@
         └────────────┘   └───────────┘   └──────────┘
 ```
 
-### AI Pipeline
-
-```
-Proje Dokümanı (Türkçe)
-         │
-         ▼
-┌────────────────────┐
-│  Model 1 (DPO)     │  ← Görev Planlama
-│  Turkish-Llama-8B  │
-└─────────┬──────────┘
-          │
-          ▼
-    Markdown Plan
-          │
-          ▼
-┌────────────────────┐
-│  Model 2 (SFT)     │  ← JSON Dönüşümü
-│  Fine-tuned Llama  │
-└─────────┬──────────┘
-          │
-          ▼
-    Jira JSON Format
-          │
-          ▼
-    Backend Database
-```
+> Detaylı mimari ve üretim pipeline'ı için bkz. **[TECHNICAL_README.md](./TECHNICAL_README.md)**.
 
 ---
 
@@ -143,9 +122,9 @@ ngrok config add-authtoken YOUR_NGROK_TOKEN
 
 # Servisi başlatın
 python llm_powered_project_planner.py
-```
 
 Çıktı:
+
 ```
 ✅ Model 1 yüklendi!
 ✅ Model 2 yüklendi!
@@ -179,6 +158,7 @@ python app.py
 ```
 
 Backend: `http://localhost:5000`
+
 
 ### 3️⃣ Frontend Kurulumu
 
@@ -341,7 +321,12 @@ Fine-tuned Llama modeli ile Markdown planlar Jira JSON formatına dönüştürü
 
 ## 👥 Ekip
 
-**KodLlama Takımı**
+**KodLlama Takımı** 
+- Osman Orçun Aydın ([@orcnnn](https://github.com/orcnnn))
+- Habil Çoban ([@hubble658](https://github.com/hubble658)) 
+- Berke Bünyamin Süle ([@berkesule](https://github.com/berkesule)) 
+- Yavuz Selim Aygan ([@cxrbon16](https://github.com/cxrbon16))
+
 
 Llama Hackathon 2025 için geliştirilmiştir.
 
